@@ -1,0 +1,6 @@
+serial_number,frequency_hz,acceleration_m_s2
+DEMO-001,150,1.8
+DEMO-001,160,2.7
+DEMO-001,170,4.0
+DEMO-001,180,2.9
+DEMO-001,190,1.9
