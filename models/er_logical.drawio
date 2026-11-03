@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="app.diagrams.net" pages="1"><diagram id="er_logical" name="Логическая модель данных">
+    <mxGraphModel dx="1074" dy="720" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1460" pageHeight="1570" background="#ffffff" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="title" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;fontSize=20;fontStyle=1;align=center;" value="Логическая модель данных" vertex="1">
+          <mxGeometry height="44" width="1420" x="20" y="10" as="geometry"/>
+        </mxCell>
+        <mxCell id="ProductModel" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Модель изделия" vertex="1">
+          <mxGeometry height="100" width="320" x="50" y="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="ProductModel_field_0" parent="ProductModel" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="model_id [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="ProductModel_field_1" parent="ProductModel" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="name [UQ]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="Lot" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Партия" vertex="1">
+          <mxGeometry height="130" width="320" x="50" y="340" as="geometry"/>
+        </mxCell>
+        <mxCell id="Lot_field_0" parent="Lot" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="lot_id [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="Lot_field_1" parent="Lot" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="model_id [FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="Lot_field_2" parent="Lot" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="lot_number [UQ]" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="Product" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Изделие" vertex="1">
+          <mxGeometry height="130" width="320" x="50" y="600" as="geometry"/>
+        </mxCell>
+        <mxCell id="Product_field_0" parent="Product" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="product_id [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="Product_field_1" parent="Product" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="lot_id [FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="Product_field_2" parent="Product" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="serial_number [UQ]" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="Employee" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Сотрудник" vertex="1">
+          <mxGeometry height="130" width="320" x="530" y="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="Employee_field_0" parent="Employee" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="employee_id [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="Employee_field_1" parent="Employee" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="login [UQ]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="Employee_field_2" parent="Employee" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="full_name" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recipe" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Версия методики" vertex="1">
+          <mxGeometry height="220" width="320" x="530" y="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recipe_field_0" parent="Recipe" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="recipe_id [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recipe_field_1" parent="Recipe" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="model_id [FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recipe_field_2" parent="Recipe" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="version" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recipe_field_3" parent="Recipe" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="approved_by [FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recipe_field_4" parent="Recipe" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="approved_at" vertex="1">
+          <mxGeometry height="30" width="320" y="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="Recipe_field_5" parent="Recipe" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="window_size" vertex="1">
+          <mxGeometry height="30" width="320" y="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="Parameter" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Контролируемый параметр" vertex="1">
+          <mxGeometry height="160" width="320" x="1070" y="420" as="geometry"/>
+        </mxCell>
+        <mxCell id="Parameter_field_0" parent="Parameter" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="parameter_id [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="Parameter_field_1" parent="Parameter" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="code [UQ]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="Parameter_field_2" parent="Parameter" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="name" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="Parameter_field_3" parent="Parameter" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="unit" vertex="1">
+          <mxGeometry height="30" width="320" y="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="RecipeLimit" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Допуск параметра" vertex="1">
+          <mxGeometry height="160" width="320" x="530" y="900" as="geometry"/>
+        </mxCell>
+        <mxCell id="RecipeLimit_field_0" parent="RecipeLimit" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="recipe_id [PK,FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="RecipeLimit_field_1" parent="RecipeLimit" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="parameter_id [PK,FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="RecipeLimit_field_2" parent="RecipeLimit" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="lower_limit" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="RecipeLimit_field_3" parent="RecipeLimit" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="upper_limit" vertex="1">
+          <mxGeometry height="30" width="320" y="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="TestRun" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Проверка изделия" vertex="1">
+          <mxGeometry height="220" width="320" x="50" y="930" as="geometry"/>
+        </mxCell>
+        <mxCell id="TestRun_field_0" parent="TestRun" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="run_id [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="TestRun_field_1" parent="TestRun" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="product_id [FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="TestRun_field_2" parent="TestRun" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="recipe_id [FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="TestRun_field_3" parent="TestRun" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="operator_id [FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="TestRun_field_4" parent="TestRun" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="started_at" vertex="1">
+          <mxGeometry height="30" width="320" y="160" as="geometry"/>
+        </mxCell>
+        <mxCell id="TestRun_field_5" parent="TestRun" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="status" vertex="1">
+          <mxGeometry height="30" width="320" y="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="Measurement" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;swimlane;horizontal=1;startSize=40;collapsible=0;container=1;recursiveResize=0;fontStyle=1;fontSize=16;align=center;swimlaneFillColor=#ffffff;fillColor=#f2f2f2;" value="Точка измерения" vertex="1">
+          <mxGeometry height="160" width="320" x="50" y="1300" as="geometry"/>
+        </mxCell>
+        <mxCell id="Measurement_field_0" parent="Measurement" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="run_id [PK,FK]" vertex="1">
+          <mxGeometry height="30" width="320" y="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="Measurement_field_1" parent="Measurement" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="point_no [PK]" vertex="1">
+          <mxGeometry height="30" width="320" y="70" as="geometry"/>
+        </mxCell>
+        <mxCell id="Measurement_field_2" parent="Measurement" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="frequency_hz" vertex="1">
+          <mxGeometry height="30" width="320" y="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="Measurement_field_3" parent="Measurement" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;text;strokeColor=none;fillColor=none;align=left;spacingLeft=10;spacingRight=5;fontSize=13;connectable=0;" value="acceleration_m_s2" vertex="1">
+          <mxGeometry height="30" width="320" y="130" as="geometry"/>
+        </mxCell>
+        <mxCell id="relation_1" edge="1" parent="1" source="ProductModel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="Lot" value="">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="relation_2" edge="1" parent="1" source="Lot" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="Product" value="">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="relation_3" edge="1" parent="1" source="ProductModel" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.4;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="Recipe" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="370" y="175"/>
+              <mxPoint x="450" y="175"/>
+              <mxPoint x="450" y="508"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relation_4" edge="1" parent="1" source="Employee" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="Recipe" value="утверждает">
+          <mxGeometry relative="1" y="50" as="geometry">
+            <mxPoint as="offset"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relation_5" edge="1" parent="1" source="Employee" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="TestRun" value="проводит">
+          <mxGeometry relative="1" x="-0.0144" y="-60" as="geometry">
+            <mxPoint as="offset"/>
+            <Array as="points">
+              <mxPoint x="530" y="180"/>
+              <mxPoint x="480" y="180"/>
+              <mxPoint x="480" y="1040"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relation_6" edge="1" parent="1" source="Product" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="TestRun" value="">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="relation_7" edge="1" parent="1" source="Recipe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0;exitY=0.8;entryX=1;entryY=0.8;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="TestRun" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="530" y="580"/>
+              <mxPoint x="450" y="580"/>
+              <mxPoint x="450" y="1106"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relation_8" edge="1" parent="1" source="Recipe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERoneToMany;" target="RecipeLimit" value="">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="relation_9" edge="1" parent="1" source="Parameter" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="RecipeLimit" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1010" y="505"/>
+              <mxPoint x="1010" y="980"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="relation_10" edge="1" parent="1" source="TestRun" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;startArrow=ERmandOne;startFill=0;startSize=16;endSize=16;endFill=0;endArrow=ERzeroToMany;" target="Measurement" value="">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="note_1" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;shape=note;size=15;align=left;spacing=12;" value="Пара (model_id, version) уникальна.&#10;Утвержденная версия не изменяется." vertex="1">
+          <mxGeometry height="110" width="340" x="1070" y="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="annotation_1" edge="1" parent="1" source="Recipe" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;endArrow=none;startArrow=none;dashed=1;" target="note_1" value="">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+        <mxCell id="note_2" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;shape=note;size=15;align=left;spacing=12;" value="Связь M:N между Recipe и Parameter&#10;раскрыта через RecipeLimit.&#10;Каждая пара задает один интервал." vertex="1">
+          <mxGeometry height="130" width="340" x="1070" y="900" as="geometry"/>
+        </mxCell>
+        <mxCell id="annotation_2" edge="1" parent="1" source="RecipeLimit" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;endArrow=none;startArrow=none;dashed=1;" target="note_2" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1070" y="980"/>
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="note_3" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fontColor=#000000;strokeColor=#000000;fillColor=#ffffff;shape=note;size=15;align=left;spacing=12;" value="Пара (run_id, frequency_hz) уникальна.&#10;Одна проверка — один проход&#10;по частотам без повторов." vertex="1">
+          <mxGeometry height="120" width="400" x="530" y="1320" as="geometry"/>
+        </mxCell>
+        <mxCell id="annotation_3" edge="1" parent="1" source="Measurement" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=20;html=0;fontFamily=Arial;fontSize=13;fontColor=#000000;strokeColor=#000000;labelBackgroundColor=#ffffff;endArrow=block;endFill=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;exitDx=0;exitDy=0;entryDx=0;entryDy=0;endArrow=none;startArrow=none;dashed=1;" target="note_3" value="">
+          <mxGeometry relative="1" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  </mxfile>

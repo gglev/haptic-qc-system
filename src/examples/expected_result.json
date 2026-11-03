@@ -1,0 +1,44 @@
+{
+  "test_runs": [
+    {
+      "status": "PASS",
+      "peak_frequency_hz": 170,
+      "reason": "Проверен допуск частоты максимального отклика",
+      "run_id": "T1",
+      "product_id": "P1",
+      "serial_number": "DEMO-001",
+      "recipe_id": "R1",
+      "lower_limit": 160,
+      "upper_limit": 180
+    },
+    {
+      "status": "FAIL",
+      "peak_frequency_hz": 190,
+      "reason": "Проверен допуск частоты максимального отклика",
+      "run_id": "T2",
+      "product_id": "P2",
+      "serial_number": "DEMO-002",
+      "recipe_id": "R1",
+      "lower_limit": 160,
+      "upper_limit": 180
+    },
+    {
+      "status": "REVIEW",
+      "peak_frequency_hz": null,
+      "reason": "Нет одного положительного максимума",
+      "run_id": "T3",
+      "product_id": "P3",
+      "serial_number": "DEMO-003",
+      "recipe_id": "R1",
+      "lower_limit": 160,
+      "upper_limit": 180
+    }
+  ],
+  "summary": {
+    "total": 3,
+    "passed": 1,
+    "failed": 1,
+    "review": 1,
+    "pass_percent": 33.333333333333336
+  }
+}

@@ -1,0 +1,8 @@
+8db646a 2026-11-03 17:23:55 +0300 Lev change
+e1e844f 2026-11-02 23:32:59 +0300 Lev add
+bfd368a 2026-10-03 16:15:00 +0300 Lev feat: implement baseline resonance calculation module
+3c73c37 2026-10-03 16:15:00 +0300 Lev feat: implement baseline resonance calculation module
+6c1ba0d 2026-10-02 12:35:00 +0300 Lev chore: setup project structure and tolerance configuration
+70b35b7 2026-10-02 12:35:00 +0300 Lev chore: setup project structure and tolerance configuration
+f99d696 2026-09-30 14:20:00 +0300 Lev docs: initialize repository with README and gitignore
+403ef29 2026-09-30 14:20:00 +0300 Lev docs: initialize repository with README and gitignore

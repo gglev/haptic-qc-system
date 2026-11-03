@@ -1,0 +1,602 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_QC" targetNamespace="https://github.com/gglev/haptic-qc-system">
+  <collaboration id="Collaboration_QC">
+    <participant id="Participant_QC" name="Выходной контроль партии" processRef="Process_QC"/>
+  </collaboration>
+  <process id="Process_QC" isExecutable="false">
+    <laneSet id="main_lanes">
+      <lane id="main_lane_ОТК" name="ОТК">
+        <flowNodeRef>start</flowNodeRef>
+        <flowNodeRef>identify</flowNodeRef>
+        <flowNodeRef>sort</flowNodeRef>
+        <flowNodeRef>more</flowNodeRef>
+        <flowNodeRef>finish</flowNodeRef>
+      </lane>
+      <lane id="main_lane_ПО" name="ПО">
+        <flowNodeRef>control</flowNodeRef>
+        <flowNodeRef>send</flowNodeRef>
+        <flowNodeRef>ack</flowNodeRef>
+        <flowNodeRef>pending</flowNodeRef>
+        <flowNodeRef>timer</flowNodeRef>
+        <flowNodeRef>summary</flowNodeRef>
+        <flowNodeRef>save</flowNodeRef>
+      </lane>
+      <lane id="main_lane_Метролог" name="Метролог">
+        <flowNodeRef>approve</flowNodeRef>
+      </lane>
+      <lane id="main_lane_MES_ERP" name="MES/ERP">
+        <flowNodeRef>job</flowNodeRef>
+        <flowNodeRef>accept</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="start" name="Поступило задание">
+      <outgoing>main_flow_1</outgoing>
+    </startEvent>
+    <userTask id="approve" name="Утвердить методику и допуски">
+      <incoming>main_flow_1</incoming>
+      <outgoing>main_flow_2</outgoing>
+    </userTask>
+    <serviceTask id="job" name="Выдать задание на партию">
+      <incoming>main_flow_2</incoming>
+      <outgoing>main_flow_3</outgoing>
+    </serviceTask>
+    <userTask id="identify" name="Считать номер и установить изделие">
+      <incoming>main_flow_3</incoming>
+      <incoming>main_flow_13</incoming>
+      <outgoing>main_flow_4</outgoing>
+    </userTask>
+    <subProcess id="control" name="Выполнить контроль изделия">
+      <incoming>main_flow_4</incoming>
+      <outgoing>main_flow_5</outgoing>
+      <laneSet id="control_lanes">
+        <lane id="control_lane_ОТК" name="ОТК">
+          <flowNodeRef>failure</flowNodeRef>
+        </lane>
+        <lane id="control_lane_ПО" name="ПО">
+          <flowNodeRef>c_start</flowNodeRef>
+          <flowNodeRef>check</flowNodeRef>
+          <flowNodeRef>ready</flowNodeRef>
+          <flowNodeRef>measure</flowNodeRef>
+          <flowNodeRef>verify</flowNodeRef>
+          <flowNodeRef>valid</flowNodeRef>
+          <flowNodeRef>evaluate</flowNodeRef>
+          <flowNodeRef>defined</flowNodeRef>
+          <flowNodeRef>quality</flowNodeRef>
+          <flowNodeRef>write</flowNodeRef>
+          <flowNodeRef>written</flowNodeRef>
+          <flowNodeRef>technical</flowNodeRef>
+          <flowNodeRef>persist</flowNodeRef>
+          <flowNodeRef>c_finish</flowNodeRef>
+        </lane>
+        <lane id="control_lane_Метролог" name="Метролог">
+          <flowNodeRef>investigate</flowNodeRef>
+        </lane>
+        <lane id="control_lane_MES_ERP" name="MES/ERP"/>
+      </laneSet>
+      <startEvent id="c_start" name="Запуск контроля">
+        <outgoing>control_flow_1</outgoing>
+      </startEvent>
+      <serviceTask id="check" name="Проверить методику и стенд">
+        <incoming>control_flow_1</incoming>
+        <incoming>control_flow_5</incoming>
+        <outgoing>control_flow_2</outgoing>
+      </serviceTask>
+      <exclusiveGateway id="ready" name="Стенд готов?">
+        <incoming>control_flow_2</incoming>
+        <outgoing>control_flow_3</outgoing>
+        <outgoing>control_flow_4</outgoing>
+      </exclusiveGateway>
+      <serviceTask id="measure" name="Измерить частотный отклик">
+        <incoming>control_flow_3</incoming>
+        <outgoing>control_flow_6</outgoing>
+      </serviceTask>
+      <serviceTask id="verify" name="Проверить данные измерений">
+        <incoming>control_flow_6</incoming>
+        <outgoing>control_flow_7</outgoing>
+      </serviceTask>
+      <exclusiveGateway id="valid" name="Данные валидны?">
+        <incoming>control_flow_7</incoming>
+        <outgoing>control_flow_8</outgoing>
+        <outgoing>control_flow_9</outgoing>
+      </exclusiveGateway>
+      <serviceTask id="evaluate" name="Оценить частотный отклик">
+        <incoming>control_flow_8</incoming>
+        <outgoing>control_flow_10</outgoing>
+      </serviceTask>
+      <exclusiveGateway id="defined" name="Максимум определен?">
+        <incoming>control_flow_10</incoming>
+        <outgoing>control_flow_11</outgoing>
+        <outgoing>control_flow_12</outgoing>
+      </exclusiveGateway>
+      <exclusiveGateway id="quality" name="Допуск соблюден?">
+        <incoming>control_flow_12</incoming>
+        <outgoing>control_flow_13</outgoing>
+        <outgoing>control_flow_14</outgoing>
+      </exclusiveGateway>
+      <serviceTask id="write" name="Записать настройки и прочитать обратно">
+        <incoming>control_flow_13</incoming>
+        <outgoing>control_flow_15</outgoing>
+      </serviceTask>
+      <exclusiveGateway id="written" name="Запись подтверждена?">
+        <incoming>control_flow_15</incoming>
+        <outgoing>control_flow_16</outgoing>
+        <outgoing>control_flow_17</outgoing>
+      </exclusiveGateway>
+      <serviceTask id="technical" name="Блокировать выпуск при ошибке записи">
+        <incoming>control_flow_17</incoming>
+        <outgoing>control_flow_18</outgoing>
+      </serviceTask>
+      <userTask id="failure" name="Зафиксировать несоответствие">
+        <incoming>control_flow_14</incoming>
+        <outgoing>control_flow_19</outgoing>
+      </userTask>
+      <serviceTask id="persist" name="Сохранить протокол изделия">
+        <incoming>control_flow_16</incoming>
+        <incoming>control_flow_18</incoming>
+        <incoming>control_flow_19</incoming>
+        <outgoing>control_flow_20</outgoing>
+      </serviceTask>
+      <endEvent id="c_finish" name="Получен статус изделия">
+        <incoming>control_flow_20</incoming>
+      </endEvent>
+      <userTask id="investigate" name="Проверить причину и разрешить новый запуск">
+        <incoming>control_flow_4</incoming>
+        <incoming>control_flow_9</incoming>
+        <incoming>control_flow_11</incoming>
+        <outgoing>control_flow_5</outgoing>
+      </userTask>
+      <sequenceFlow id="control_flow_1" sourceRef="c_start" targetRef="check"/>
+      <sequenceFlow id="control_flow_2" sourceRef="check" targetRef="ready"/>
+      <sequenceFlow id="control_flow_3" sourceRef="ready" targetRef="measure" name="Да"/>
+      <sequenceFlow id="control_flow_4" sourceRef="ready" targetRef="investigate" name="Нет"/>
+      <sequenceFlow id="control_flow_5" sourceRef="investigate" targetRef="check"/>
+      <sequenceFlow id="control_flow_6" sourceRef="measure" targetRef="verify"/>
+      <sequenceFlow id="control_flow_7" sourceRef="verify" targetRef="valid"/>
+      <sequenceFlow id="control_flow_8" sourceRef="valid" targetRef="evaluate" name="Да"/>
+      <sequenceFlow id="control_flow_9" sourceRef="valid" targetRef="investigate" name="Нет"/>
+      <sequenceFlow id="control_flow_10" sourceRef="evaluate" targetRef="defined"/>
+      <sequenceFlow id="control_flow_11" sourceRef="defined" targetRef="investigate" name="Нет"/>
+      <sequenceFlow id="control_flow_12" sourceRef="defined" targetRef="quality" name="Да"/>
+      <sequenceFlow id="control_flow_13" sourceRef="quality" targetRef="write" name="Да"/>
+      <sequenceFlow id="control_flow_14" sourceRef="quality" targetRef="failure" name="Нет"/>
+      <sequenceFlow id="control_flow_15" sourceRef="write" targetRef="written"/>
+      <sequenceFlow id="control_flow_16" sourceRef="written" targetRef="persist" name="Да"/>
+      <sequenceFlow id="control_flow_17" sourceRef="written" targetRef="technical" name="Нет"/>
+      <sequenceFlow id="control_flow_18" sourceRef="technical" targetRef="persist"/>
+      <sequenceFlow id="control_flow_19" sourceRef="failure" targetRef="persist"/>
+      <sequenceFlow id="control_flow_20" sourceRef="persist" targetRef="c_finish"/>
+      <dataObject id="samples_object"/>
+      <dataObjectReference id="samples" name="Точки измерений&#10;Measurement" dataObjectRef="samples_object"/>
+      <dataObject id="run_report_object"/>
+      <dataObjectReference id="run_report" name="Протокол изделия&#10;TestRun" dataObjectRef="run_report_object"/>
+      <association id="samples_from" sourceRef="measure" targetRef="samples" associationDirection="One"/>
+      <association id="samples_to" sourceRef="samples" targetRef="verify" associationDirection="One"/>
+      <association id="run_report_from" sourceRef="persist" targetRef="run_report" associationDirection="One"/>
+    </subProcess>
+    <serviceTask id="send" name="Передать протокол изделия">
+      <incoming>main_flow_5</incoming>
+      <incoming>main_flow_11</incoming>
+      <outgoing>main_flow_6</outgoing>
+    </serviceTask>
+    <serviceTask id="accept" name="Обработать протокол и вернуть ответ">
+      <incoming>main_flow_6</incoming>
+      <outgoing>main_flow_7</outgoing>
+    </serviceTask>
+    <exclusiveGateway id="ack" name="Есть подтверждение?">
+      <incoming>main_flow_7</incoming>
+      <outgoing>main_flow_8</outgoing>
+      <outgoing>main_flow_9</outgoing>
+    </exclusiveGateway>
+    <serviceTask id="pending" name="Отложить выпуск до синхронизации">
+      <incoming>main_flow_9</incoming>
+      <outgoing>main_flow_10</outgoing>
+    </serviceTask>
+    <intermediateCatchEvent id="timer" name="Повтор через 30 с">
+      <incoming>main_flow_10</incoming>
+      <outgoing>main_flow_11</outgoing>
+      <timerEventDefinition id="timer_definition">
+        <timeDuration xsi:type="tFormalExpression">PT30S</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <userTask id="sort" name="Сортировать изделие по статусу">
+      <incoming>main_flow_8</incoming>
+      <outgoing>main_flow_12</outgoing>
+    </userTask>
+    <exclusiveGateway id="more" name="Остались изделия?">
+      <incoming>main_flow_12</incoming>
+      <outgoing>main_flow_13</outgoing>
+      <outgoing>main_flow_14</outgoing>
+    </exclusiveGateway>
+    <serviceTask id="summary" name="Подсчитать результаты партии">
+      <incoming>main_flow_14</incoming>
+      <outgoing>main_flow_15</outgoing>
+    </serviceTask>
+    <serviceTask id="save" name="Сохранить протокол">
+      <incoming>main_flow_15</incoming>
+      <outgoing>main_flow_16</outgoing>
+    </serviceTask>
+    <endEvent id="finish" name="Контроль завершен">
+      <incoming>main_flow_16</incoming>
+    </endEvent>
+    <sequenceFlow id="main_flow_1" sourceRef="start" targetRef="approve"/>
+    <sequenceFlow id="main_flow_2" sourceRef="approve" targetRef="job"/>
+    <sequenceFlow id="main_flow_3" sourceRef="job" targetRef="identify"/>
+    <sequenceFlow id="main_flow_4" sourceRef="identify" targetRef="control"/>
+    <sequenceFlow id="main_flow_5" sourceRef="control" targetRef="send"/>
+    <sequenceFlow id="main_flow_6" sourceRef="send" targetRef="accept"/>
+    <sequenceFlow id="main_flow_7" sourceRef="accept" targetRef="ack"/>
+    <sequenceFlow id="main_flow_8" sourceRef="ack" targetRef="sort" name="Да"/>
+    <sequenceFlow id="main_flow_9" sourceRef="ack" targetRef="pending" name="Нет / тайм-аут"/>
+    <sequenceFlow id="main_flow_10" sourceRef="pending" targetRef="timer"/>
+    <sequenceFlow id="main_flow_11" sourceRef="timer" targetRef="send"/>
+    <sequenceFlow id="main_flow_12" sourceRef="sort" targetRef="more"/>
+    <sequenceFlow id="main_flow_13" sourceRef="more" targetRef="identify" name="Да"/>
+    <sequenceFlow id="main_flow_14" sourceRef="more" targetRef="summary" name="Нет"/>
+    <sequenceFlow id="main_flow_15" sourceRef="summary" targetRef="save"/>
+    <sequenceFlow id="main_flow_16" sourceRef="save" targetRef="finish"/>
+    <dataObject id="method_object"/>
+    <dataObjectReference id="method" name="Методика и допуски&#10;Recipe, Parameter, RecipeLimit" dataObjectRef="method_object"/>
+    <dataObject id="order_object"/>
+    <dataObjectReference id="order" name="Модель, партия, изделия&#10;ProductModel, Lot, Product" dataObjectRef="order_object"/>
+    <dataObject id="batch_report_object"/>
+    <dataObjectReference id="batch_report" name="Сводный протокол партии&#10;TestRun и результаты" dataObjectRef="batch_report_object"/>
+    <association id="method_from" sourceRef="approve" targetRef="method" associationDirection="One"/>
+    <association id="method_to" sourceRef="method" targetRef="job" associationDirection="One"/>
+    <association id="order_from" sourceRef="job" targetRef="order" associationDirection="One"/>
+    <association id="order_to" sourceRef="order" targetRef="identify" associationDirection="One"/>
+    <association id="batch_report_from" sourceRef="save" targetRef="batch_report" associationDirection="One"/>
+  </process>
+  <bpmndi:BPMNDiagram id="main_diagram">
+    <bpmndi:BPMNPlane id="main_plane" bpmnElement="Collaboration_QC">
+      <bpmndi:BPMNShape id="main_shape_Participant_QC" bpmnElement="Participant_QC" isHorizontal="true">
+        <dc:Bounds x="20" y="80" width="2060" height="830"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_main_lane_ОТК" bpmnElement="main_lane_ОТК" isHorizontal="true">
+        <dc:Bounds x="60" y="80" width="2020" height="170"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_main_lane_ПО" bpmnElement="main_lane_ПО" isHorizontal="true">
+        <dc:Bounds x="60" y="250" width="2020" height="320"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_main_lane_Метролог" bpmnElement="main_lane_Метролог" isHorizontal="true">
+        <dc:Bounds x="60" y="570" width="2020" height="170"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_main_lane_MES_ERP" bpmnElement="main_lane_MES_ERP" isHorizontal="true">
+        <dc:Bounds x="60" y="740" width="2020" height="170"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_start" bpmnElement="start">
+        <dc:Bounds x="80" y="120" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_approve" bpmnElement="approve">
+        <dc:Bounds x="160" y="610" width="160" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_job" bpmnElement="job">
+        <dc:Bounds x="370" y="780" width="160" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_identify" bpmnElement="identify">
+        <dc:Bounds x="580" y="110" width="170" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_control" bpmnElement="control" isExpanded="false">
+        <dc:Bounds x="800" y="300" width="170" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_send" bpmnElement="send">
+        <dc:Bounds x="1020" y="300" width="170" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_accept" bpmnElement="accept">
+        <dc:Bounds x="1020" y="780" width="170" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_ack" bpmnElement="ack">
+        <dc:Bounds x="1260" y="315" width="60" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_pending" bpmnElement="pending">
+        <dc:Bounds x="1360" y="450" width="180" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_timer" bpmnElement="timer">
+        <dc:Bounds x="1210" y="470" width="40" height="40"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_sort" bpmnElement="sort">
+        <dc:Bounds x="1380" y="110" width="170" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_more" bpmnElement="more">
+        <dc:Bounds x="1640" y="125" width="60" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_summary" bpmnElement="summary">
+        <dc:Bounds x="1620" y="300" width="180" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_save" bpmnElement="save">
+        <dc:Bounds x="1840" y="300" width="170" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_finish" bpmnElement="finish">
+        <dc:Bounds x="1940" y="125" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_method" bpmnElement="method">
+        <dc:Bounds x="350" y="590" width="190" height="110"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_order" bpmnElement="order">
+        <dc:Bounds x="600" y="760" width="200" height="110"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="main_shape_batch_report" bpmnElement="batch_report">
+        <dc:Bounds x="1840" y="440" width="190" height="110"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="main_edge_1" bpmnElement="main_flow_1">
+        <di:waypoint x="98" y="156"/>
+        <di:waypoint x="98" y="650"/>
+        <di:waypoint x="160" y="650"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_2" bpmnElement="main_flow_2">
+        <di:waypoint x="320" y="650"/>
+        <di:waypoint x="350" y="650"/>
+        <di:waypoint x="350" y="820"/>
+        <di:waypoint x="370" y="820"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_3" bpmnElement="main_flow_3">
+        <di:waypoint x="530" y="820"/>
+        <di:waypoint x="550" y="820"/>
+        <di:waypoint x="550" y="155"/>
+        <di:waypoint x="580" y="155"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_4" bpmnElement="main_flow_4">
+        <di:waypoint x="750" y="155"/>
+        <di:waypoint x="780" y="155"/>
+        <di:waypoint x="780" y="345"/>
+        <di:waypoint x="800" y="345"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_5" bpmnElement="main_flow_5">
+        <di:waypoint x="970" y="345.0"/>
+        <di:waypoint x="1020" y="345.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_6" bpmnElement="main_flow_6">
+        <di:waypoint x="1105" y="390"/>
+        <di:waypoint x="1105" y="780"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_7" bpmnElement="main_flow_7">
+        <di:waypoint x="1190" y="820"/>
+        <di:waypoint x="1290" y="820"/>
+        <di:waypoint x="1290" y="375"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_8" bpmnElement="main_flow_8">
+        <di:waypoint x="1320" y="345"/>
+        <di:waypoint x="1465" y="345"/>
+        <di:waypoint x="1465" y="200"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_9" bpmnElement="main_flow_9">
+        <di:waypoint x="1290" y="375"/>
+        <di:waypoint x="1290" y="420"/>
+        <di:waypoint x="1450" y="420"/>
+        <di:waypoint x="1450" y="450"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_10" bpmnElement="main_flow_10">
+        <di:waypoint x="1360" y="490"/>
+        <di:waypoint x="1250" y="490"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_11" bpmnElement="main_flow_11">
+        <di:waypoint x="1230" y="470"/>
+        <di:waypoint x="1230" y="410"/>
+        <di:waypoint x="1105" y="410"/>
+        <di:waypoint x="1105" y="390"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_12" bpmnElement="main_flow_12">
+        <di:waypoint x="1550" y="155.0"/>
+        <di:waypoint x="1640" y="155.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_13" bpmnElement="main_flow_13">
+        <di:waypoint x="1670" y="125"/>
+        <di:waypoint x="1670" y="65"/>
+        <di:waypoint x="665" y="65"/>
+        <di:waypoint x="665" y="110"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_14" bpmnElement="main_flow_14">
+        <di:waypoint x="1670" y="185"/>
+        <di:waypoint x="1670" y="300"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_15" bpmnElement="main_flow_15">
+        <di:waypoint x="1800" y="345.0"/>
+        <di:waypoint x="1840" y="345.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_16" bpmnElement="main_flow_16">
+        <di:waypoint x="1925" y="300"/>
+        <di:waypoint x="1925" y="220"/>
+        <di:waypoint x="1958" y="220"/>
+        <di:waypoint x="1958" y="161"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_method_from" bpmnElement="method_from">
+        <di:waypoint x="240.0" y="650.0"/>
+        <di:waypoint x="445.0" y="645.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_method_to" bpmnElement="method_to">
+        <di:waypoint x="445.0" y="645.0"/>
+        <di:waypoint x="450.0" y="820.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_order_from" bpmnElement="order_from">
+        <di:waypoint x="450.0" y="820.0"/>
+        <di:waypoint x="700.0" y="815.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_order_to" bpmnElement="order_to">
+        <di:waypoint x="700.0" y="815.0"/>
+        <di:waypoint x="665.0" y="155.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="main_edge_batch_report_from" bpmnElement="batch_report_from">
+        <di:waypoint x="1925.0" y="345.0"/>
+        <di:waypoint x="1935.0" y="495.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="control_diagram">
+    <bpmndi:BPMNPlane id="control_plane" bpmnElement="control">
+      <bpmndi:BPMNShape id="control_shape_control_lane_ОТК" bpmnElement="control_lane_ОТК" isHorizontal="true">
+        <dc:Bounds x="60" y="80" width="1820" height="170"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_control_lane_ПО" bpmnElement="control_lane_ПО" isHorizontal="true">
+        <dc:Bounds x="60" y="250" width="1820" height="340"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_control_lane_Метролог" bpmnElement="control_lane_Метролог" isHorizontal="true">
+        <dc:Bounds x="60" y="590" width="1820" height="180"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_control_lane_MES_ERP" bpmnElement="control_lane_MES_ERP" isHorizontal="true">
+        <dc:Bounds x="60" y="770" width="1820" height="100"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_c_start" bpmnElement="c_start">
+        <dc:Bounds x="70" y="300" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_check" bpmnElement="check">
+        <dc:Bounds x="140" y="280" width="150" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_ready" bpmnElement="ready">
+        <dc:Bounds x="330" y="290" width="60" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_measure" bpmnElement="measure">
+        <dc:Bounds x="440" y="280" width="150" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_verify" bpmnElement="verify">
+        <dc:Bounds x="640" y="280" width="150" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_valid" bpmnElement="valid">
+        <dc:Bounds x="830" y="290" width="60" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_evaluate" bpmnElement="evaluate">
+        <dc:Bounds x="940" y="280" width="150" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_defined" bpmnElement="defined">
+        <dc:Bounds x="1130" y="290" width="60" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_quality" bpmnElement="quality">
+        <dc:Bounds x="1280" y="290" width="60" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_write" bpmnElement="write">
+        <dc:Bounds x="1390" y="280" width="170" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_written" bpmnElement="written">
+        <dc:Bounds x="1600" y="290" width="60" height="60"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_technical" bpmnElement="technical">
+        <dc:Bounds x="1570" y="460" width="180" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_failure" bpmnElement="failure">
+        <dc:Bounds x="1230" y="100" width="180" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_persist" bpmnElement="persist">
+        <dc:Bounds x="1040" y="460" width="180" height="80"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_c_finish" bpmnElement="c_finish">
+        <dc:Bounds x="920" y="480" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_investigate" bpmnElement="investigate">
+        <dc:Bounds x="640" y="630" width="220" height="90"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_samples" bpmnElement="samples">
+        <dc:Bounds x="440" y="100" width="170" height="110"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="control_shape_run_report" bpmnElement="run_report">
+        <dc:Bounds x="1040" y="630" width="190" height="110"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="control_edge_1" bpmnElement="control_flow_1">
+        <di:waypoint x="106" y="318.0"/>
+        <di:waypoint x="140" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_2" bpmnElement="control_flow_2">
+        <di:waypoint x="290" y="320.0"/>
+        <di:waypoint x="330" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_3" bpmnElement="control_flow_3">
+        <di:waypoint x="390" y="320.0"/>
+        <di:waypoint x="440" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_4" bpmnElement="control_flow_4">
+        <di:waypoint x="360" y="350"/>
+        <di:waypoint x="360" y="675"/>
+        <di:waypoint x="640" y="675"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_5" bpmnElement="control_flow_5">
+        <di:waypoint x="640" y="700"/>
+        <di:waypoint x="120" y="700"/>
+        <di:waypoint x="120" y="400"/>
+        <di:waypoint x="215" y="400"/>
+        <di:waypoint x="215" y="360"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_6" bpmnElement="control_flow_6">
+        <di:waypoint x="590" y="320.0"/>
+        <di:waypoint x="640" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_7" bpmnElement="control_flow_7">
+        <di:waypoint x="790" y="320.0"/>
+        <di:waypoint x="830" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_8" bpmnElement="control_flow_8">
+        <di:waypoint x="890" y="320.0"/>
+        <di:waypoint x="940" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_9" bpmnElement="control_flow_9">
+        <di:waypoint x="860" y="350"/>
+        <di:waypoint x="900" y="350"/>
+        <di:waypoint x="900" y="675"/>
+        <di:waypoint x="860" y="675"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_10" bpmnElement="control_flow_10">
+        <di:waypoint x="1090" y="320.0"/>
+        <di:waypoint x="1130" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_11" bpmnElement="control_flow_11">
+        <di:waypoint x="1160" y="350"/>
+        <di:waypoint x="1160" y="425"/>
+        <di:waypoint x="1250" y="425"/>
+        <di:waypoint x="1250" y="600"/>
+        <di:waypoint x="750" y="600"/>
+        <di:waypoint x="750" y="630"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_12" bpmnElement="control_flow_12">
+        <di:waypoint x="1190" y="320.0"/>
+        <di:waypoint x="1280" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_13" bpmnElement="control_flow_13">
+        <di:waypoint x="1340" y="320.0"/>
+        <di:waypoint x="1390" y="325.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_14" bpmnElement="control_flow_14">
+        <di:waypoint x="1310" y="290"/>
+        <di:waypoint x="1310" y="180"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_15" bpmnElement="control_flow_15">
+        <di:waypoint x="1560" y="325.0"/>
+        <di:waypoint x="1600" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_16" bpmnElement="control_flow_16">
+        <di:waypoint x="1630" y="350"/>
+        <di:waypoint x="1630" y="410"/>
+        <di:waypoint x="1130" y="410"/>
+        <di:waypoint x="1130" y="460"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_17" bpmnElement="control_flow_17">
+        <di:waypoint x="1660" y="320"/>
+        <di:waypoint x="1800" y="320"/>
+        <di:waypoint x="1800" y="505"/>
+        <di:waypoint x="1750" y="505"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_18" bpmnElement="control_flow_18">
+        <di:waypoint x="1570" y="505"/>
+        <di:waypoint x="1220" y="505"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_19" bpmnElement="control_flow_19">
+        <di:waypoint x="1410" y="140"/>
+        <di:waypoint x="1830" y="140"/>
+        <di:waypoint x="1830" y="570"/>
+        <di:waypoint x="1130" y="570"/>
+        <di:waypoint x="1130" y="540"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_20" bpmnElement="control_flow_20">
+        <di:waypoint x="1040" y="500"/>
+        <di:waypoint x="956" y="500"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_samples_from" bpmnElement="samples_from">
+        <di:waypoint x="515.0" y="320.0"/>
+        <di:waypoint x="525.0" y="155.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_samples_to" bpmnElement="samples_to">
+        <di:waypoint x="525.0" y="155.0"/>
+        <di:waypoint x="715.0" y="320.0"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="control_edge_run_report_from" bpmnElement="run_report_from">
+        <di:waypoint x="1130.0" y="500.0"/>
+        <di:waypoint x="1135.0" y="685.0"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

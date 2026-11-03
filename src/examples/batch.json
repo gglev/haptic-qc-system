@@ -1,0 +1,224 @@
+{
+  "product_models": [
+    {
+      "model_id": "M1",
+      "name": "Учебный LRA"
+    }
+  ],
+  "lots": [
+    {
+      "lot_id": "L1",
+      "model_id": "M1",
+      "lot_number": "DEMO-01"
+    }
+  ],
+  "products": [
+    {
+      "product_id": "P1",
+      "lot_id": "L1",
+      "serial_number": "DEMO-001"
+    },
+    {
+      "product_id": "P2",
+      "lot_id": "L1",
+      "serial_number": "DEMO-002"
+    },
+    {
+      "product_id": "P3",
+      "lot_id": "L1",
+      "serial_number": "DEMO-003"
+    }
+  ],
+  "employees": [
+    {
+      "employee_id": "E1",
+      "login": "operator",
+      "full_name": "Учебный оператор"
+    },
+    {
+      "employee_id": "E2",
+      "login": "metrolog",
+      "full_name": "Учебный метролог"
+    }
+  ],
+  "recipes": [
+    {
+      "recipe_id": "R1",
+      "model_id": "M1",
+      "version": "1",
+      "approved_by": "E2",
+      "approved_at": "2026-11-03T09:00:00+03:00",
+      "window_size": 3
+    }
+  ],
+  "parameters": [
+    {
+      "parameter_id": "F1",
+      "code": "peak_frequency_hz",
+      "name": "Частота максимального отклика",
+      "unit": "Гц"
+    }
+  ],
+  "recipe_limits": [
+    {
+      "recipe_id": "R1",
+      "parameter_id": "F1",
+      "lower_limit": 160,
+      "upper_limit": 180
+    }
+  ],
+  "test_runs": [
+    {
+      "run_id": "T1",
+      "product_id": "P1",
+      "recipe_id": "R1",
+      "operator_id": "E1",
+      "started_at": "2026-11-03T10:01:00+03:00",
+      "status": "NEW"
+    },
+    {
+      "run_id": "T2",
+      "product_id": "P2",
+      "recipe_id": "R1",
+      "operator_id": "E1",
+      "started_at": "2026-11-03T10:02:00+03:00",
+      "status": "NEW"
+    },
+    {
+      "run_id": "T3",
+      "product_id": "P3",
+      "recipe_id": "R1",
+      "operator_id": "E1",
+      "started_at": "2026-11-03T10:03:00+03:00",
+      "status": "NEW"
+    }
+  ],
+  "measurements": [
+    {
+      "run_id": "T1",
+      "point_no": 1,
+      "frequency_hz": 150,
+      "acceleration_m_s2": 1
+    },
+    {
+      "run_id": "T1",
+      "point_no": 2,
+      "frequency_hz": 160,
+      "acceleration_m_s2": 3
+    },
+    {
+      "run_id": "T1",
+      "point_no": 3,
+      "frequency_hz": 170,
+      "acceleration_m_s2": 8
+    },
+    {
+      "run_id": "T1",
+      "point_no": 4,
+      "frequency_hz": 180,
+      "acceleration_m_s2": 3
+    },
+    {
+      "run_id": "T1",
+      "point_no": 5,
+      "frequency_hz": 190,
+      "acceleration_m_s2": 1
+    },
+    {
+      "run_id": "T1",
+      "point_no": 6,
+      "frequency_hz": 200,
+      "acceleration_m_s2": 0.5
+    },
+    {
+      "run_id": "T1",
+      "point_no": 7,
+      "frequency_hz": 210,
+      "acceleration_m_s2": 0.2
+    },
+    {
+      "run_id": "T2",
+      "point_no": 1,
+      "frequency_hz": 150,
+      "acceleration_m_s2": 0.2
+    },
+    {
+      "run_id": "T2",
+      "point_no": 2,
+      "frequency_hz": 160,
+      "acceleration_m_s2": 0.5
+    },
+    {
+      "run_id": "T2",
+      "point_no": 3,
+      "frequency_hz": 170,
+      "acceleration_m_s2": 1
+    },
+    {
+      "run_id": "T2",
+      "point_no": 4,
+      "frequency_hz": 180,
+      "acceleration_m_s2": 3
+    },
+    {
+      "run_id": "T2",
+      "point_no": 5,
+      "frequency_hz": 190,
+      "acceleration_m_s2": 8
+    },
+    {
+      "run_id": "T2",
+      "point_no": 6,
+      "frequency_hz": 200,
+      "acceleration_m_s2": 3
+    },
+    {
+      "run_id": "T2",
+      "point_no": 7,
+      "frequency_hz": 210,
+      "acceleration_m_s2": 1
+    },
+    {
+      "run_id": "T3",
+      "point_no": 1,
+      "frequency_hz": 150,
+      "acceleration_m_s2": 2
+    },
+    {
+      "run_id": "T3",
+      "point_no": 2,
+      "frequency_hz": 160,
+      "acceleration_m_s2": 2
+    },
+    {
+      "run_id": "T3",
+      "point_no": 3,
+      "frequency_hz": 170,
+      "acceleration_m_s2": 2
+    },
+    {
+      "run_id": "T3",
+      "point_no": 4,
+      "frequency_hz": 180,
+      "acceleration_m_s2": 2
+    },
+    {
+      "run_id": "T3",
+      "point_no": 5,
+      "frequency_hz": 190,
+      "acceleration_m_s2": 2
+    },
+    {
+      "run_id": "T3",
+      "point_no": 6,
+      "frequency_hz": 200,
+      "acceleration_m_s2": 2
+    },
+    {
+      "run_id": "T3",
+      "point_no": 7,
+      "frequency_hz": 210,
+      "acceleration_m_s2": 2
+    }
+  ]
+}
