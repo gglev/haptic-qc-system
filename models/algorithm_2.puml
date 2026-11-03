@@ -1,0 +1,34 @@
+@startdot
+digraph Peak {
+  graph [rankdir=TB, bgcolor=white, labelloc=t, label="Алгоритм 2. Поиск максимума и проверка допуска", fontname="Arial", nodesep=0.4, ranksep=0.4];
+  node [shape=box, fontname="Arial", fontsize=12];
+  edge [fontname="Arial", fontsize=11];
+  start [style=rounded, label="Начало"];
+  input [shape=parallelogram, label="Ввод проверенных измерений\nи настроек частоты"];
+  max [label="Найти максимальное ускорение\nи число его повторений"];
+  single [shape=diamond, label="Максимум положительный\nи встречается один раз?"];
+  freq [label="Найти частоту f_peak\nдля максимального ускорения"];
+  edge_peak [shape=diamond, label="f_peak равна минимальной\nили максимальной частоте?"];
+  range [label="lower = target_hz - tolerance\nupper = target_hz + tolerance"];
+  limits [shape=diamond, label="lower <= f_peak <= upper?"];
+  pass [label="status = Годен"];
+  fail [label="status = Не годен"];
+  output [shape=parallelogram, label="Вывод частоты, границ и статуса"];
+  error [shape=parallelogram, label="Сообщить причину ошибки\nРезультат годности не формировать"];
+  end [style=rounded, label="Конец"];
+
+  start -> input -> max -> single;
+  single -> freq [label="Да"];
+  single -> error [label="Нет"];
+  freq -> edge_peak;
+  edge_peak -> error [label="Да"];
+  edge_peak -> range [label="Нет"];
+  range -> limits;
+  limits -> pass [label="Да"];
+  limits -> fail [label="Нет"];
+  pass -> output;
+  fail -> output;
+  output -> end;
+  error -> end;
+}
+@enddot

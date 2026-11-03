@@ -1,0 +1,367 @@
+<?xml version='1.0' encoding='utf-8'?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_LRA" targetNamespace="urn:rtu-mirea:kt2:lra">
+  <bpmn:collaboration id="Collaboration_LRA">
+    <bpmn:participant id="Pool_LRA" name="Выходной контроль LRA" processRef="Process_LRA" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_LRA" name="Выходной контроль и настройка LRA" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_LRA">
+      <bpmn:lane id="Lane_otk" name="ОТК">
+        <bpmn:flowNodeRef>start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>identify</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>failure</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>sort</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>finish</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_sw" name="ПО">
+        <bpmn:flowNodeRef>check</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>ready</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>measure</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>valid</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>quality</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>write</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>written</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>technical</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>persist</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>send</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>timeout</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>pending</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>timer</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_met" name="Метролог">
+        <bpmn:flowNodeRef>approve</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>investigate</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Lane_mes" name="MES/ERP">
+        <bpmn:flowNodeRef>job</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>accept</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>status</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start" name="Поступило задание">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="approve" name="Утвердить методику и допуски">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="job" name="Выдать задание и рецепт">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:userTask id="identify" name="Идентифицировать и установить изделие">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="check" name="Проверить рецепт и стенд">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ready" name="Стенд готов?">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:userTask id="investigate" name="Устранить причину и разрешить новый запуск">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="measure" name="Измерить отклик и вычислить показатели">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="valid" name="Данные валидны?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:exclusiveGateway id="quality" name="Допуски соблюдены?">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="write" name="Записать EEPROM и прочитать обратно">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="written" name="Запись подтверждена?">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="technical" name="Блокировать выпуск при ошибке записи">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="failure" name="Зафиксировать несоответствие">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="persist" name="Сохранить протокол и очередь отправки">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="send" name="Передать протокол">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:incoming>Flow_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="accept" name="Принять протокол без дубликатов">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="status" name="Зафиксировать статус и подтвердить">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="timeout" name="Есть подтверждение?">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="pending" name="Ожидать синхронизации">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="timer" name="Повтор через 30 секунд">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerDef">
+        <bpmn:timeDuration>PT30S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:userTask id="sort" name="Сортировать по подтвержденному статусу">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="finish" name="Контроль завершен">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="approve" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="approve" targetRef="job" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="job" targetRef="identify" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="identify" targetRef="check" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="check" targetRef="ready" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ready" targetRef="measure" name="Да" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ready" targetRef="investigate" name="Нет" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="investigate" targetRef="check" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="measure" targetRef="valid" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="valid" targetRef="quality" name="Да" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="valid" targetRef="investigate" name="Нет" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="quality" targetRef="write" name="Да" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="quality" targetRef="failure" name="Нет" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="write" targetRef="written" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="written" targetRef="persist" name="Да" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="written" targetRef="technical" name="Нет" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="failure" targetRef="persist" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="technical" targetRef="persist" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="persist" targetRef="send" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="send" targetRef="accept" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="accept" targetRef="status" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="status" targetRef="timeout" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="timeout" targetRef="sort" name="Да" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="timeout" targetRef="pending" name="Нет или тайм-аут" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="pending" targetRef="timer" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="timer" targetRef="send" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="sort" targetRef="finish" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_LRA">
+    <bpmndi:BPMNPlane id="Plane_LRA" bpmnElement="Collaboration_LRA">
+      <bpmndi:BPMNShape id="Shape_Pool" bpmnElement="Pool_LRA" isHorizontal="true">
+        <dc:Bounds x="0" y="0" width="3050" height="800" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_otk" bpmnElement="Lane_otk" isHorizontal="true">
+        <dc:Bounds x="30" y="0" width="3020" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_sw" bpmnElement="Lane_sw" isHorizontal="true">
+        <dc:Bounds x="30" y="200" width="3020" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_met" bpmnElement="Lane_met" isHorizontal="true">
+        <dc:Bounds x="30" y="400" width="3020" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_mes" bpmnElement="Lane_mes" isHorizontal="true">
+        <dc:Bounds x="30" y="600" width="3020" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_start" bpmnElement="start">
+        <dc:Bounds x="80" y="65" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_approve" bpmnElement="approve">
+        <dc:Bounds x="160" y="465" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_job" bpmnElement="job">
+        <dc:Bounds x="350" y="665" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_identify" bpmnElement="identify">
+        <dc:Bounds x="540" y="65" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_check" bpmnElement="check">
+        <dc:Bounds x="730" y="265" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_ready" bpmnElement="ready">
+        <dc:Bounds x="920" y="265" width="54" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_investigate" bpmnElement="investigate">
+        <dc:Bounds x="920" y="465" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_measure" bpmnElement="measure">
+        <dc:Bounds x="1060" y="265" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_valid" bpmnElement="valid">
+        <dc:Bounds x="1260" y="265" width="54" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_quality" bpmnElement="quality">
+        <dc:Bounds x="1370" y="265" width="54" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_write" bpmnElement="write">
+        <dc:Bounds x="1500" y="265" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_written" bpmnElement="written">
+        <dc:Bounds x="1700" y="265" width="54" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_technical" bpmnElement="technical">
+        <dc:Bounds x="1820" y="265" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_failure" bpmnElement="failure">
+        <dc:Bounds x="1500" y="65" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_persist" bpmnElement="persist">
+        <dc:Bounds x="2000" y="265" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_send" bpmnElement="send">
+        <dc:Bounds x="2190" y="265" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_accept" bpmnElement="accept">
+        <dc:Bounds x="2190" y="665" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_status" bpmnElement="status">
+        <dc:Bounds x="2380" y="665" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_timeout" bpmnElement="timeout">
+        <dc:Bounds x="2570" y="265" width="54" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_pending" bpmnElement="pending">
+        <dc:Bounds x="2700" y="265" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_timer" bpmnElement="timer">
+        <dc:Bounds x="2900" y="265" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_sort" bpmnElement="sort">
+        <dc:Bounds x="2700" y="65" width="165" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_finish" bpmnElement="finish">
+        <dc:Bounds x="2900" y="65" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_1" bpmnElement="Flow_1">
+        <di:waypoint x="116" y="83.0" />
+        <di:waypoint x="160" y="507.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_2" bpmnElement="Flow_2">
+        <di:waypoint x="325" y="507.5" />
+        <di:waypoint x="350" y="707.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_3" bpmnElement="Flow_3">
+        <di:waypoint x="515" y="707.5" />
+        <di:waypoint x="540" y="107.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_4" bpmnElement="Flow_4">
+        <di:waypoint x="705" y="107.5" />
+        <di:waypoint x="730" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_5" bpmnElement="Flow_5">
+        <di:waypoint x="895" y="307.5" />
+        <di:waypoint x="920" y="292.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_6" bpmnElement="Flow_6">
+        <di:waypoint x="974" y="292.0" />
+        <di:waypoint x="1060" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_7" bpmnElement="Flow_7">
+        <di:waypoint x="974" y="292.0" />
+        <di:waypoint x="920" y="507.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_8" bpmnElement="Flow_8">
+        <di:waypoint x="1085" y="507.5" />
+        <di:waypoint x="730" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_9" bpmnElement="Flow_9">
+        <di:waypoint x="1225" y="307.5" />
+        <di:waypoint x="1260" y="292.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_10" bpmnElement="Flow_10">
+        <di:waypoint x="1314" y="292.0" />
+        <di:waypoint x="1370" y="292.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_11" bpmnElement="Flow_11">
+        <di:waypoint x="1314" y="292.0" />
+        <di:waypoint x="920" y="507.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_12" bpmnElement="Flow_12">
+        <di:waypoint x="1424" y="292.0" />
+        <di:waypoint x="1500" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_13" bpmnElement="Flow_13">
+        <di:waypoint x="1424" y="292.0" />
+        <di:waypoint x="1500" y="107.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_14" bpmnElement="Flow_14">
+        <di:waypoint x="1665" y="307.5" />
+        <di:waypoint x="1700" y="292.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_15" bpmnElement="Flow_15">
+        <di:waypoint x="1754" y="292.0" />
+        <di:waypoint x="2000" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_16" bpmnElement="Flow_16">
+        <di:waypoint x="1754" y="292.0" />
+        <di:waypoint x="1820" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_17" bpmnElement="Flow_17">
+        <di:waypoint x="1665" y="107.5" />
+        <di:waypoint x="2000" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_18" bpmnElement="Flow_18">
+        <di:waypoint x="1985" y="307.5" />
+        <di:waypoint x="2000" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_19" bpmnElement="Flow_19">
+        <di:waypoint x="2165" y="307.5" />
+        <di:waypoint x="2190" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_20" bpmnElement="Flow_20">
+        <di:waypoint x="2355" y="307.5" />
+        <di:waypoint x="2190" y="707.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_21" bpmnElement="Flow_21">
+        <di:waypoint x="2355" y="707.5" />
+        <di:waypoint x="2380" y="707.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_22" bpmnElement="Flow_22">
+        <di:waypoint x="2545" y="707.5" />
+        <di:waypoint x="2570" y="292.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_23" bpmnElement="Flow_23">
+        <di:waypoint x="2624" y="292.0" />
+        <di:waypoint x="2700" y="107.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_24" bpmnElement="Flow_24">
+        <di:waypoint x="2624" y="292.0" />
+        <di:waypoint x="2700" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_25" bpmnElement="Flow_25">
+        <di:waypoint x="2865" y="307.5" />
+        <di:waypoint x="2900" y="283.0" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_26" bpmnElement="Flow_26">
+        <di:waypoint x="2936" y="283.0" />
+        <di:waypoint x="2190" y="307.5" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_27" bpmnElement="Flow_27">
+        <di:waypoint x="2865" y="107.5" />
+        <di:waypoint x="2900" y="83.0" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

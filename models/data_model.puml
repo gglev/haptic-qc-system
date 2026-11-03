@@ -1,0 +1,94 @@
+@startuml
+title Данные выходного контроля
+hide circle
+skinparam linetype ortho
+skinparam monochrome true
+
+entity "Модель изделия" as ProductModel {
+  * model_id : bigint <<PK>>
+  --
+  * name : text <<UQ>>
+}
+entity "Партия" as Lot {
+  * lot_id : bigint <<PK>>
+  --
+  * model_id : bigint <<FK>>
+  * lot_number : text <<UQ>>
+}
+entity "Изделие" as Product {
+  * product_id : bigint <<PK>>
+  --
+  * lot_id : bigint <<FK>>
+  * serial_number : text <<UQ>>
+}
+entity "Сотрудник" as Employee {
+  * employee_id : bigint <<PK>>
+  --
+  * login : text <<UQ>>
+  * full_name : text
+}
+entity "Версия методики" as Recipe {
+  * recipe_id : bigint <<PK>>
+  --
+  * model_id : bigint <<FK>>
+  * version : integer
+  * approved_by : bigint <<FK>>
+  * approved_at : timestamptz
+}
+entity "Контролируемый параметр" as Parameter {
+  * parameter_id : bigint <<PK>>
+  --
+  * code : text <<UQ>>
+  * name : text
+  * unit : text
+}
+entity "Допуск параметра" as RecipeLimit {
+  * recipe_id : bigint <<PK,FK>>
+  * parameter_id : bigint <<PK,FK>>
+  --
+  * lower_limit : numeric
+  * upper_limit : numeric
+}
+entity "Проверка изделия" as TestRun {
+  * run_id : uuid <<PK>>
+  --
+  * product_id : bigint <<FK>>
+  * recipe_id : bigint <<FK>>
+  * operator_id : bigint <<FK>>
+  * started_at : timestamptz
+  * status : text
+}
+entity "Точка измерения" as Measurement {
+  * run_id : uuid <<PK,FK>>
+  * point_no : integer <<PK>>
+  --
+  * frequency_hz : numeric
+  * acceleration_m_s2 : numeric
+}
+
+ProductModel ||--o{ Lot
+Lot ||--o{ Product
+ProductModel ||--o{ Recipe
+Employee ||--o{ Recipe : утверждает
+Employee ||--o{ TestRun : проводит
+Product ||--o{ TestRun
+Recipe ||--o{ TestRun
+Recipe ||--|{ RecipeLimit
+Parameter ||--o{ RecipeLimit
+TestRun ||--o{ Measurement
+
+note bottom of RecipeLimit
+  Связь M:N между Recipe и Parameter
+  раскрыта через RecipeLimit.
+  Для каждой пары задается один интервал.
+end note
+note bottom of Recipe
+  UNIQUE (model_id, version)
+  Утвержденная версия не изменяется.
+end note
+note bottom of Measurement
+  UNIQUE (run_id, frequency_hz)
+  Один файл содержит один проход
+  по частотам без повторов.
+end note
+@enduml

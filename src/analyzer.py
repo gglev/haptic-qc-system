@@ -48,7 +48,7 @@ def load_limits(file_path):
         if type(value) not in [int, float] or not math.isfinite(value):
             raise ValueError(f"Неверное значение настройки {name}")
     if limits["target_hz"] <= 0 or limits["tolerance"] < 0:
-        raise ValueError("Частота должна быть положительной, допуск — неотрицательным")
+        raise ValueError("Частота должна быть положительной, а допуск неотрицательным")
     if limits["target_hz"] - limits["tolerance"] <= 0:
         raise ValueError("Нижняя граница частоты должна быть больше нуля")
     return limits
