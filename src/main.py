@@ -5,7 +5,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from analysis import analyze_response, check_response, summarize_batch
+from analysis import analyze_response, check_response, check_started_at, summarize_batch
 
 
 def read_number(value, name):
@@ -103,6 +103,7 @@ def load_batch(path):
     for run in tables["test_runs"].values():
         if run["status"] != "NEW":
             raise ValueError("На вход принимаются только новые проверки со статусом NEW")
+        check_started_at(run["started_at"])
         product = tables["products"][run["product_id"]]
         lot = tables["lots"][product["lot_id"]]
         recipe = tables["recipes"][run["recipe_id"]]
@@ -132,6 +133,7 @@ def process_batch(prepared):
                                   limit["lower_limit"], limit["upper_limit"])
         result.update({"run_id": item["run"]["run_id"],
                        "product_id": item["product"]["product_id"],
+                       "started_at": item["run"]["started_at"],
                        "serial_number": item["product"]["serial_number"],
                        "recipe_id": item["recipe"]["recipe_id"],
                        "lower_limit": limit["lower_limit"],
@@ -178,6 +180,10 @@ def main():
     summary = result["summary"]
     print(f"Всего: {summary['total']}; годных: {summary['passed']}; "
           f"не годных: {summary['failed']}; на повторную проверку: {summary['review']}")
+    print(f"Уникальных изделий: {summary['unique_products']}; "
+          f"повторных проверок: {summary['repeated_checks']}")
+    print(f"Последние проверки: PASS={summary['final_passed']}; "
+          f"FAIL={summary['final_failed']}; REVIEW={summary['final_review']}")
     print(f"Протокол сохранен: {target}")
     return 0
 

@@ -46,7 +46,8 @@ def main():
                  "algo_1.drawio", "algo_1.png", "algo_2.drawio", "algo_2.png"):
         files.append("models/" + name)
     for name in ("README.md", "requirements.txt", "main.py", "analysis.py", "checks.py",
-                 "examples/batch.json", "examples/expected_result.json"):
+                 "examples/batch.json", "examples/expected_result.json",
+                 "examples/repeated_batch.json", "examples/repeated_expected.json"):
         files.append("src/" + name)
     missing = [name for name in files if not (root / name).is_file()]
     if missing:
@@ -57,7 +58,8 @@ def main():
     archive = destination / "ИКБО-31-24_КалининЛА_КТ2.zip"
     with ZipFile(archive, "w", ZIP_DEFLATED) as zip_file:
         for name in files:
-            zip_file.write(root / name, name)
+            archive_name = "Отчет_ИКБО-31-24_КалининЛА_КТ2.docx" if name == "report.docx" else name
+            zip_file.write(root / name, archive_name)
     print("Архив: " + str(archive))
     if draft:
         print("Это копия для проверки. Необходимые дни Git и публикация новых файлов еще не подтверждены.")

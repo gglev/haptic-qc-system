@@ -6,7 +6,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from analysis import analyze_response, check_response, summarize_batch
+from analysis import analyze_response, check_response, check_started_at, summarize_batch
 from main import load_batch, process_batch, save_protocol
 
 
@@ -49,11 +49,27 @@ def check_algorithms():
     expect_error(check_response, invalid, 3)
     invalid[2]["acceleration_m_s2"] = 1e308
     expect_error(check_response, invalid, 3)
-    summary = summarize_batch([{"status": "PASS"}, {"status": "FAIL"}, {"status": "REVIEW"}])
+    sample = [
+        {"product_id": "P1", "run_id": "R1", "started_at": "2026-11-19T09:00:00+03:00", "status": "FAIL"},
+        {"product_id": "P2", "run_id": "R2", "started_at": "2026-11-19T09:01:00+03:00", "status": "REVIEW"},
+        {"product_id": "P1", "run_id": "R3", "started_at": "2026-11-19T07:00:00+00:00", "status": "PASS"},
+    ]
+    summary = summarize_batch(sample)
     assert (summary["total"], summary["passed"], summary["failed"], summary["review"]) == (3, 1, 1, 1)
     assert math.isclose(summary["pass_percent"], 100 / 3)
-    assert summarize_batch([]) == {"total": 0, "passed": 0, "failed": 0,
-                                   "review": 0, "pass_percent": None}
+    assert (summary["unique_products"], summary["repeated_checks"]) == (2, 1)
+    assert (summary["final_passed"], summary["final_failed"], summary["final_review"]) == (1, 0, 1)
+    assert summary["final_pass_percent"] == 50
+    assert summarize_batch(list(reversed(sample))) == summary
+    same_time = [dict(sample[0], run_id="A"), dict(sample[0], run_id="B", status="PASS")]
+    assert summarize_batch(same_time)["final_passed"] == 1
+    empty = summarize_batch([])
+    assert empty["total"] == empty["unique_products"] == 0
+    assert empty["pass_percent"] is empty["final_pass_percent"] is None
+    expect_error(check_started_at, "2026-11-19T09:00:00")
+    expect_error(check_started_at, "wrong")
+    expect_error(summarize_batch, [dict(sample[0], status="UNKNOWN")])
+
 
 
 def check_files():
@@ -61,6 +77,9 @@ def check_files():
     source = root / "examples" / "batch.json"
     expected = json.loads((root / "examples" / "expected_result.json").read_text(encoding="utf-8"))
     assert process_batch(load_batch(source)) == expected
+    repeated = root / "examples" / "repeated_batch.json"
+    repeated_expected = json.loads((root / "examples" / "repeated_expected.json").read_text(encoding="utf-8"))
+    assert process_batch(load_batch(repeated)) == repeated_expected
     data = json.loads(source.read_text(encoding="utf-8"))
     with tempfile.TemporaryDirectory() as directory:
         directory = Path(directory)
@@ -103,6 +122,7 @@ def main():
     print("Проверены расчеты, границы допуска, плато, край диапазона, сетка и пустая партия")
     check_files()
     print("Проверены пример JSON, порядок точек, связи, дубликаты и защита файлов при ошибках")
+    print("Проверены повторные проверки, разные часовые пояса и одинаковое время начала")
     print("Все проверки пройдены")
 
 

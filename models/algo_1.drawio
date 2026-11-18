@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<mxfile host="app.diagrams.net" pages="1"><diagram id="algo_1" name="algo_1">
-    <mxGraphModel dx="893" dy="599" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1387.8" pageHeight="1880.3" math="0" shadow="0">
+<mxfile host="app.diagrams.net" pages="2">
+  <diagram id="algo_1_sheet_1" name="Алгоритм 1 — лист 1"><mxGraphModel dx="893" dy="599" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1460" pageHeight="1120" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
@@ -39,36 +39,6 @@
         </mxCell>
         <mxCell id="peakadd" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Добавить i в peaks" vertex="1">
           <mxGeometry height="36" width="143.748" x="466.31600000000003" y="982.5799999999999" as="geometry"/>
-        </mxCell>
-        <mxCell id="single" parent="1" style="rhombus;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="maximum &gt; 0 и&#10;ровно один максимум?" vertex="1">
-          <mxGeometry height="95.99759999999999" width="338.8248" x="677.4476000000001" y="1085.5811999999999" as="geometry"/>
-        </mxCell>
-        <mxCell id="edge_peak" parent="1" style="rhombus;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Максимум на краю&#10;сглаженной характеристики?" vertex="1">
-          <mxGeometry height="95.99759999999999" width="439.956" x="356.882" y="1227.9812" as="geometry"/>
-        </mxCell>
-        <mxCell id="freq" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="frequency = частота максимума" vertex="1">
-          <mxGeometry height="36" width="227.3976" x="272.1612" y="1400.3799999999999" as="geometry"/>
-        </mxCell>
-        <mxCell id="limits" parent="1" style="rhombus;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Нижняя граница ≤ frequency&#10;≤ верхняя граница?" vertex="1">
-          <mxGeometry height="95.99759999999999" width="415.10159999999996" x="178.30920000000003" y="1499.3811999999998" as="geometry"/>
-        </mxCell>
-        <mxCell id="pass" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="status = PASS" vertex="1">
-          <mxGeometry height="36" width="112.2552" x="261.7324" y="1641.78" as="geometry"/>
-        </mxCell>
-        <mxCell id="fail" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="status = FAIL" vertex="1">
-          <mxGeometry height="36" width="104.47200000000001" x="402.624" y="1641.78" as="geometry"/>
-        </mxCell>
-        <mxCell id="review1" parent="1" style="shape=parallelogram;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Вернуть REVIEW, частота null:&#10;нет одного положительного максимума" vertex="1">
-          <mxGeometry height="95.99759999999999" width="585.1584" x="810.0008" y="1228.0012" as="geometry"/>
-        </mxCell>
-        <mxCell id="review2" parent="1" style="shape=parallelogram;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Вернуть REVIEW, частота null:&#10;расширить диапазон измерений" vertex="1">
-          <mxGeometry height="95.99759999999999" width="480.312" x="528.7040000000001" y="1370.3811999999998" as="geometry"/>
-        </mxCell>
-        <mxCell id="output" parent="1" style="shape=parallelogram;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Вернуть status, frequency, reason" vertex="1">
-          <mxGeometry height="62.400240000000004" width="491.7168" x="140.0016" y="1710.77988" as="geometry"/>
-        </mxCell>
-        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Конец" vertex="1">
-          <mxGeometry height="44.12376" width="85.5576" x="343.0812" y="1806.17612" as="geometry"/>
         </mxCell>
         <mxCell id="flow_0" edge="1" parent="1" source="start" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="input" value="">
           <mxGeometry relative="1" as="geometry">
@@ -188,20 +158,52 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="flow_15" edge="1" parent="1" source="scan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="single" value="Цикл завершен">
-          <mxGeometry relative="1" x="0.0865" y="53" as="geometry">
-            <mxPoint as="offset"/>
-            <Array as="points">
-              <mxPoint x="846.8" y="790"/>
-              <mxPoint x="846.8" y="790"/>
-            </Array>
-          </mxGeometry>
+        <mxCell id="flow_15" edge="1" parent="1" source="scan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="page_connector" value="Цикл завершен">
+          <mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="page_connector" value="А" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;"><mxGeometry x="832.8" y="1052" width="28" height="28" as="geometry"/></mxCell></root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="algo_1_sheet_2" name="Алгоритм 1 — лист 2"><mxGraphModel dx="893" dy="599" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1460" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="single" parent="1" style="rhombus;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="maximum &gt; 0 и&#10;ровно один максимум?" vertex="1">
+          <mxGeometry height="95.99759999999999" width="338.8248" x="677.4476000000001" y="65.58119999999985" as="geometry"/>
         </mxCell>
+        <mxCell id="edge_peak" parent="1" style="rhombus;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Максимум на краю&#10;сглаженной характеристики?" vertex="1">
+          <mxGeometry height="95.99759999999999" width="439.956" x="356.882" y="207.98119999999994" as="geometry"/>
+        </mxCell>
+        <mxCell id="freq" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="frequency = частота максимума" vertex="1">
+          <mxGeometry height="36" width="227.3976" x="272.1612" y="380.3799999999999" as="geometry"/>
+        </mxCell>
+        <mxCell id="limits" parent="1" style="rhombus;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Нижняя граница ≤ frequency&#10;≤ верхняя граница?" vertex="1">
+          <mxGeometry height="95.99759999999999" width="415.10159999999996" x="178.30920000000003" y="479.3811999999998" as="geometry"/>
+        </mxCell>
+        <mxCell id="pass" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="status = PASS" vertex="1">
+          <mxGeometry height="36" width="112.2552" x="261.7324" y="621.78" as="geometry"/>
+        </mxCell>
+        <mxCell id="fail" parent="1" style="whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="status = FAIL" vertex="1">
+          <mxGeometry height="36" width="104.47200000000001" x="402.624" y="621.78" as="geometry"/>
+        </mxCell>
+        <mxCell id="review1" parent="1" style="shape=parallelogram;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Вернуть REVIEW, частота null:&#10;нет одного положительного максимума" vertex="1">
+          <mxGeometry height="95.99759999999999" width="585.1584" x="810.0008" y="208.00119999999993" as="geometry"/>
+        </mxCell>
+        <mxCell id="review2" parent="1" style="shape=parallelogram;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Вернуть REVIEW, частота null:&#10;расширить диапазон измерений" vertex="1">
+          <mxGeometry height="95.99759999999999" width="480.312" x="528.7040000000001" y="350.3811999999998" as="geometry"/>
+        </mxCell>
+        <mxCell id="output" parent="1" style="shape=parallelogram;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Вернуть status, frequency, reason" vertex="1">
+          <mxGeometry height="62.400240000000004" width="491.7168" x="140.0016" y="690.77988" as="geometry"/>
+        </mxCell>
+        <mxCell id="end" parent="1" style="ellipse;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;fontColor=#000000;" value="Конец" vertex="1">
+          <mxGeometry height="44.12376" width="85.5576" x="343.0812" y="786.1761200000001" as="geometry"/>
+        </mxCell>
+        <mxCell id="flow_15" edge="1" parent="1" source="page_connector" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="single" value="">
+          <mxGeometry relative="1" as="geometry"/></mxCell>
         <mxCell id="flow_16" edge="1" parent="1" source="single" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="edge_peak" value="Да">
           <mxGeometry relative="1" x="-0.0191" y="-16" as="geometry">
             <mxPoint as="offset"/>
             <Array as="points">
-              <mxPoint x="747.7199999999999" y="1186.13"/>
+              <mxPoint x="747.7199999999999" y="166.1300000000001"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -209,16 +211,16 @@
           <mxGeometry relative="1" x="0.0116" y="12" as="geometry">
             <mxPoint as="offset"/>
             <Array as="points">
-              <mxPoint x="938.64" y="1181.9499999999998"/>
+              <mxPoint x="938.64" y="161.94999999999982"/>
             </Array>
-            <mxPoint x="1118.8699999999994" y="1227.9812000000002" as="targetPoint"/>
+            <mxPoint x="1118.8699999999994" y="207.98120000000017" as="targetPoint"/>
           </mxGeometry>
         </mxCell>
         <mxCell id="flow_18" edge="1" parent="1" source="edge_peak" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="review2" value="Да">
           <mxGeometry relative="1" x="0.0101" y="9" as="geometry">
             <mxPoint as="offset"/>
             <Array as="points">
-              <mxPoint x="647.5" y="1328.6399999999999"/>
+              <mxPoint x="647.5" y="308.6399999999999"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -226,14 +228,14 @@
           <mxGeometry relative="1" x="-0.0484" y="-9" as="geometry">
             <mxPoint as="offset"/>
             <Array as="points">
-              <mxPoint x="492.96000000000004" y="1338.65"/>
+              <mxPoint x="492.96000000000004" y="318.6500000000001"/>
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="flow_20" edge="1" parent="1" source="freq" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="limits" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="385.86" y="1450.05"/>
+              <mxPoint x="385.86" y="430.04999999999995"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -241,7 +243,7 @@
           <mxGeometry relative="1" x="0.1411" y="-14" as="geometry">
             <mxPoint x="14" y="-14" as="offset"/>
             <Array as="points">
-              <mxPoint x="351.66" y="1603.8999999999999"/>
+              <mxPoint x="351.66" y="583.8999999999999"/>
             </Array>
           </mxGeometry>
         </mxCell>
@@ -249,47 +251,47 @@
           <mxGeometry relative="1" x="0.1462" y="15" as="geometry">
             <mxPoint x="-10" y="-14" as="offset"/>
             <Array as="points">
-              <mxPoint x="420.56" y="1603.8999999999999"/>
+              <mxPoint x="420.56" y="583.8999999999999"/>
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="flow_23" edge="1" parent="1" source="pass" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="output" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="338.53000000000003" y="1685.1499999999999"/>
+              <mxPoint x="338.53000000000003" y="665.1499999999999"/>
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="flow_24" edge="1" parent="1" source="fail" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="output" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="433.88" y="1685.1499999999999"/>
+              <mxPoint x="433.88" y="665.1499999999999"/>
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="flow_25" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="end" value="" source="review1">
           <mxGeometry relative="1" x="-0.0004" as="geometry">
             <Array as="points">
-              <mxPoint x="1084.8" y="1828.3"/>
+              <mxPoint x="1084.8" y="808.3"/>
             </Array>
-            <mxPoint x="1084.7699999999995" y="1323.9788000000003" as="sourcePoint"/>
+            <mxPoint x="1084.7699999999995" y="303.9788000000003" as="sourcePoint"/>
           </mxGeometry>
         </mxCell>
         <mxCell id="flow_26" edge="1" parent="1" source="review2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="end" value="">
           <mxGeometry relative="1" x="-0.0792" as="geometry">
             <Array as="points">
-              <mxPoint x="790" y="1828.3"/>
+              <mxPoint x="790" y="808.3"/>
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="flow_27" edge="1" parent="1" source="output" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=block;endFill=1;strokeColor=#000000;fontFamily=Arial;fontSize=12;labelBackgroundColor=#ffffff;" target="end" value="">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="385.86" y="1780.2"/>
+              <mxPoint x="385.86" y="760.2"/>
             </Array>
           </mxGeometry>
         </mxCell>
-      </root>
+      <mxCell id="page_connector" value="А" vertex="1" parent="1" style="ellipse;whiteSpace=wrap;html=0;fontFamily=Arial;fontSize=14;fillColor=#ffffff;strokeColor=#000000;"><mxGeometry x="832.8" y="6.0" width="28" height="28" as="geometry"/></mxCell></root>
     </mxGraphModel>
   </diagram>
-  </mxfile>
+</mxfile>
