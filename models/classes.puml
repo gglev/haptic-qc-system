@@ -1,0 +1,307 @@
+@startuml classes
+title Пакеты Java программы
+skinparam monochrome true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam nodesep 45
+skinparam ranksep 65
+hide circle
+left to right direction
+hide members
+package "qc.model" as model {
+class ProductModel
+class Lot
+class Product
+class Employee
+class Metrolog
+class Recipe
+class Parameter
+class RecipeLimit
+class TestRun
+class Measurement
+interface ResponseAnalyzer
+class AnalysisResult
+class ResponseRules
+}
+package "qc.analysis" as analysis {
+class RawResponseAnalyzer
+class MovingAverageAnalyzer
+class BatchSummary
+}
+package "qc.app" as app {
+class Batch
+class JsonIO
+class Main
+}
+app ..> model : объекты и правила
+app ..> analysis : выбор и запуск расчета
+analysis ..> model : входные данные и результат
+Employee <|-- Metrolog
+ResponseAnalyzer <|.. RawResponseAnalyzer
+ResponseAnalyzer <|.. MovingAverageAnalyzer
+@enduml
+
+@startuml classes_model
+title Пакет qc.model
+skinparam monochrome true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam nodesep 45
+skinparam ranksep 65
+hide circle
+top to bottom direction
+package "qc.model" {
+class ProductModel <<entity>> {
+  -id : String
+  -name : String
+  +getId() : String
+  +getName() : String
+}
+class Lot <<entity>> {
+  -id : String
+  -model : ProductModel
+  -number : String
+  +getId() : String
+  +getModel() : ProductModel
+  +getNumber() : String
+}
+class Product <<entity>> {
+  -id : String
+  -lot : Lot
+  -serialNumber : String
+  +getId() : String
+  +getLot() : Lot
+  +getSerialNumber() : String
+}
+class Employee <<entity>> {
+  -id : String
+  -login : String
+  -fullName : String
+  +getId() : String
+  +getLogin() : String
+  +getFullName() : String
+  +canApproveRecipe() : boolean
+}
+class Metrolog {
+  +canApproveRecipe() : boolean
+}
+class Recipe <<entity>> {
+  -id : String
+  -model : ProductModel
+  -version : String
+  -approvedBy : Employee
+  -approvedAt : String
+  -windowSize : int
+  -analyzer : ResponseAnalyzer
+  +getId() : String
+  +getModel() : ProductModel
+  +getVersion() : String
+  +getApprovedBy() : Employee
+  +getApprovedAt() : String
+  +getWindowSize() : int
+  +analyze(p1 : List<Measurement>, p2 : RecipeLimit) : AnalysisResult
+}
+class Parameter <<entity>> {
+  -id : String
+  -code : String
+  -name : String
+  -unit : String
+  +getId() : String
+  +getCode() : String
+  +getName() : String
+  +getUnit() : String
+}
+class RecipeLimit <<entity>> {
+  -recipe : Recipe
+  -parameter : Parameter
+  -lower : double
+  -upper : double
+  +getRecipe() : Recipe
+  +getParameter() : Parameter
+  +getLower() : double
+  +getUpper() : double
+  +contains(p1 : double) : boolean
+}
+class TestRun <<entity>> {
+  -id : String
+  -product : Product
+  -recipe : Recipe
+  -operator : Employee
+  -startedAt : String
+  -startedInstant : Instant
+  -limit : RecipeLimit
+  -measurements : List<Measurement>
+  -status : String
+  -result : AnalysisResult
+  +getId() : String
+  +getProduct() : Product
+  +getRecipe() : Recipe
+  +getOperator() : Employee
+  +getStartedAt() : String
+  +getStartedInstant() : Instant
+  +getStatus() : String
+  +getMeasurements() : List<Measurement>
+  +analyze() : AnalysisResult
+  +toProtocol() : Map<String, Object>
+}
+class Measurement <<entity>> {
+  -pointNo : BigInteger
+  -frequency : double
+  -acceleration : double
+  +getPointNo() : BigInteger
+  +getFrequency() : double
+  +getAcceleration() : double
+}
+interface ResponseAnalyzer {
+  +getWindowSize() : int
+  +analyze(p1 : List<Measurement>, p2 : RecipeLimit) : AnalysisResult
+}
+class AnalysisResult {
+  -status : String
+  -peakFrequency : Double
+  -reason : String
+  +getStatus() : String
+  +getPeakFrequency() : Double
+  +getReason() : String
+  +{static} evaluate(p1 : List<Double>, p2 : List<Double>, p3 : RecipeLimit) : AnalysisResult
+  +toMap() : Map<String, Object>
+}
+class ResponseRules {
+  +{static} checkResponse(p1 : List<Measurement>, p2 : int) : void
+  +{static} isClose(p1 : double, p2 : double, p3 : double) : boolean
+  +{static} parseTime(p1 : String) : Instant
+  +{static} compareText(p1 : String, p2 : String) : int
+}
+}
+Employee <|-- Metrolog
+ProductModel "1" <-- "0..*" Lot : model
+Lot "1" <-- "0..*" Product : lot
+ProductModel "1" <-- "0..*" Recipe : model
+Employee "1" <-- "0..*" Recipe : approvedBy
+Employee "1" <-- "0..*" TestRun : operator
+Product "1" <-- "0..*" TestRun : product
+Recipe "1" <-- "0..*" TestRun : recipe
+Recipe "1" <-- "0..*" RecipeLimit : recipe
+Parameter "1" <-- "0..*" RecipeLimit : parameter
+TestRun "0..*" --> "1" RecipeLimit : limit
+TestRun "1" *-- "3..*" Measurement : measurements
+TestRun "1" --> "0..1" AnalysisResult : result
+Recipe "0..*" --> "1" ResponseAnalyzer : analyzer
+ResponseAnalyzer ..> AnalysisResult
+TestRun ..> ResponseRules
+ResponseRules -[hidden]down- Measurement
+legend bottom
+  + открытый метод    - закрытое поле    Подчеркнутый метод — static
+  entity — сущность ER-модели    external — класс подробно показан на другой схеме
+  Конструкторы и закрытые вспомогательные методы не показаны.
+endlegend
+@enduml
+
+@startuml classes_analysis
+title Пакет qc.analysis
+skinparam monochrome true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam nodesep 45
+skinparam ranksep 65
+hide circle
+top to bottom direction
+package "qc.analysis" {
+class RawResponseAnalyzer {
+  +getWindowSize() : int
+  +analyze(p1 : List<Measurement>, p2 : RecipeLimit) : AnalysisResult
+}
+class MovingAverageAnalyzer {
+  -windowSize : int
+  +getWindowSize() : int
+  +analyze(p1 : List<Measurement>, p2 : RecipeLimit) : AnalysisResult
+}
+class BatchSummary {
+  -allCounts : Map<String, Integer>
+  -finalCounts : Map<String, Integer>
+  -total : int
+  -uniqueProducts : int
+  +toMap() : Map<String, Object>
+}
+}
+package "qc.model" {
+ interface ResponseAnalyzer <<external>>
+ class AnalysisResult <<external>>
+ class ResponseRules <<external>>
+ class TestRun <<external>>
+}
+ResponseAnalyzer <|.. RawResponseAnalyzer
+ResponseAnalyzer <|.. MovingAverageAnalyzer
+RawResponseAnalyzer ..> ResponseRules : checkResponse
+MovingAverageAnalyzer ..> ResponseRules : checkResponse
+RawResponseAnalyzer ..> AnalysisResult : evaluate
+MovingAverageAnalyzer ..> AnalysisResult : evaluate
+BatchSummary ..> TestRun : последние проверки
+legend bottom
+  + открытый метод    - закрытое поле    Подчеркнутый метод — static
+  entity — сущность ER-модели    external — класс подробно показан на другой схеме
+  Конструкторы и закрытые вспомогательные методы не показаны.
+endlegend
+@enduml
+
+@startuml classes_app
+title Пакет qc.app
+skinparam monochrome true
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam defaultFontName Arial
+skinparam defaultFontSize 14
+skinparam nodesep 45
+skinparam ranksep 65
+hide circle
+top to bottom direction
+package "qc.app" {
+class Batch {
+  -models : Map<String, ProductModel>
+  -lots : Map<String, Lot>
+  -products : Map<String, Product>
+  -employees : Map<String, Employee>
+  -recipes : Map<String, Recipe>
+  -parameters : Map<String, Parameter>
+  -limits : List<RecipeLimit>
+  -runs : List<TestRun>
+  +getRuns() : List<TestRun>
+  +analyze() : Map<String, Object>
+}
+class JsonIO {
+  -{static} GSON : Gson
+  +{static} loadBatch(p1 : Path) : Batch
+  +{static} saveProtocol(p1 : Map<String, Object>, p2 : Path) : void
+}
+class Main {
+  +{static} run(p1 : String[], p2 : PrintStream) : int
+  +{static} main(p1 : String[]) : void
+}
+}
+package "qc.model" {
+ class TestRun <<external>>
+}
+package "qc.analysis" {
+ class BatchSummary <<external>>
+ class RawResponseAnalyzer <<external>>
+ class MovingAverageAnalyzer <<external>>
+}
+Main ..> JsonIO : загрузка и сохранение
+Main ..> Batch : analyze
+JsonIO ..> Batch : создает
+JsonIO ..> RawResponseAnalyzer : окно 1
+JsonIO ..> MovingAverageAnalyzer : окно больше 1
+Batch "1" o-- "0..*" TestRun : runs
+Batch ..> BatchSummary : создает
+legend bottom
+  + открытый метод    - закрытое поле    Подчеркнутый метод — static
+  entity — сущность ER-модели    external — класс подробно показан на другой схеме
+  Конструкторы и закрытые вспомогательные методы не показаны.
+endlegend
+@enduml

@@ -6,3 +6,11 @@ __pycache__/
 
 /dist/
 /src/result.json
+
+*.class
+build/
+target/
+out/
+/src/java/lib/
+/src/java/result.json
+/src/java/repeated_result.json
